@@ -1,0 +1,4 @@
+name: elasticsearch
+sources:
+- https://github.com/Uzihoon/efk-stack-demo
+version: 1.0.0

@@ -1,0 +1,28 @@
+container:
+  name: es-cluster
+  namespace: kube-logging
+replicas: 3
+app: elasticsearch
+image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+
+## CPU
+cpu:
+  limits: 1000m
+  requests: 100m
+
+## PORT
+ports:
+  rest:
+    name: rest
+    port: 9200
+    protocol: TCP
+  interNode:
+    name: inter-node
+    port: 9300
+    protocol: TCP
+
+## Volumne
+volumne:
+  path: /usr/share/elasticsearch/data
+  name: data
+  storage: 10Gi
