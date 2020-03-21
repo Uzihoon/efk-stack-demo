@@ -7,8 +7,8 @@ image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
 
 ## CPU
 cpu:
-  limits: 1000m
-  requests: 100m
+  limit: 1000m
+  request: 100m
 
 ## PORT
 ports:
