@@ -1,0 +1,12 @@
+name: kibana
+app: kibana
+namespace: kube-logging
+
+port: 5601
+targetPort: 5601
+
+env:
+  urlName: ELASTICSEARCH_URL
+  urlValue: http://elasticsearch:9200
+
+image: docker.elastic.co/kibana/kibana:7.2.0

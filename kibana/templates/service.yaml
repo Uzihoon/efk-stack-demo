@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.name }}
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+spec:
+  externalTrafficPolicy: Local
+  type: LoadBalancer
+  selector:
+    app: {{ .Values.name }}
+  ports:
+    - port: {{ .Values.port }}
+      targetPort: {{ .Values.targetPort }}

@@ -1,0 +1,30 @@
+app:
+  name: fluentd
+  namespace: kube-logging
+
+env:
+  host:
+    name: FLUENT_ELASTICSEARCH_HOST
+    value: "elasticsearch.kube-logging.svc.cluster.local"
+  port:
+    name: FLUENT_ELASTICSEARCH_PORT
+    value: "9200"
+  scheme:
+    name: FLUENT_ELASTICSEARCH_SCHEME
+    value: "http"
+  conf:
+    name: FLUENTD_SYSTEMD_CONF
+    value: disable
+
+resources:
+  limits:
+    memory: 512Mi
+  requests:
+    memory: 200Mi
+    cpu: 100m
+
+volume:
+  varlog: /var/log
+  dockerContainer: /var/lib/docker/containers
+
+image: fluent/fluentd-kubernetes-daemonset:v1.4.2-debian-elasticsearch-1.1
