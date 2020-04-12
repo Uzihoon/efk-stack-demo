@@ -39,9 +39,9 @@ spec:
               memory: {{ .Values.resources.requests.memory }}
           volumeMounts:
             - name: varlog
-              mounthPath: {{ .Values.volume.varlog }}
+              mountPath: {{ .Values.volume.varlog }}
             - name: varlibdockercontainers
-              mounthPath: {{ .Values.volume.dockerContainer }}
+              mountPath: {{ .Values.volume.dockerContainer }}
               readOnly: true
       terminationGracePeriodSeconds: 30
       volumes:
