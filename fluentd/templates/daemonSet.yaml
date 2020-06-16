@@ -1,52 +1,53 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v2
 kind: DaemonSet
 metadata:
-    name: {{ .Values.app.name }}
-    namespace: {{ .Values.app.namespace }}
-    labels:
-        app: {{ .Values.app.name }}
+  name: {{ .Values.app.name }}
+  namespace: {{ .Values.app.namespace }}
+  labels:
+    app: {{ .Values.app.name }}
 spec:
-    selector:
-        matchLabels:
-            app: {{ .Values.app.name }}
-    template:
-        metadata:
-            labels:
-                app: {{ .Values.app.name }}
-        spec:
-            serviceAccount: {{ .Values.app.name }}
-            serviceAccountName: {{ .Values.app.name }}
-            tolerations:
-                - key: node-role-kubernetes.io/master
-                  effect: NoSchedule
-            containers:
-                - name: {{ .Values.app.name }}
-                  image: {{ .Values.image }}
-                  env:
-                    - name: {{ .Values.env.host.name }}
-                      value: {{ .Values.env.host.value }}
-                    - name: {{ .Values.env.port.name }}
-                      value: {{ .Values.env.port.value }}
-                    - name: {{ .Values.env.scheme.name }}
-                      value: {{ .Values.env.scheme.value }}
-                    - name: {{ .Values.env.conf.name }}
-                      value: {{ .Values.env.conf.value }}
-                  resources:
-                    limits:
-                        memory: {{ .Values.resources.limits.memory }}
-                    requests:
-                        cpu: {{ .Values.resources.requests.cpu }}
-                        memory: {{ .Values.resources.requests.memory }}
-                  volumeMounts:
-                    - name: varlog
-                      mountPath: {{ .Values.volume.varlog }}
-                    - name: varlibdockercontainers
-                      mountPath: {{ .Values.volume.dockerContainer }}
-            terminationGracePeriodSeconds: 30
-            volumes:
-                - name: varlog
-                  hostPath:
-                    path: {{ .Values.volume.varlog }}
-                - name: varlibdockercontainers
-                  hostPath:
-                    path: {{ .Values.volume.dockerContainer }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+    spec:
+      serviceAccount: {{ .Values.app.name }}
+      serviceAccountName: {{ .Values.app.name }}
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+      containers:
+        - name: {{ .Values.app.name }}
+          image: {{ .Values.image }}
+          env:
+            - name: {{ .Values.env.host.name }}
+              value: {{ .Values.env.host.value }}
+            - name: {{ .Values.env.port.name }}
+              value: {{ .Values.env.port.value }}
+            - name: {{ .Values.env.scheme.name }}
+              value: {{ .Values.env.scheme.value }}
+            - name: {{ .Values.env.conf.name }}
+              value: {{ .Values.env.conf.value }}
+          resources:
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+          volumeMounts:
+            - name: varlog
+              mountPath: {{ .Values.volume.varlog }}
+            - name: varlibdockercontainers
+              mountPath: {{ .Values.volume.dockerContainer }}
+              readOnly: true
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: varlog
+          hostPath:
+            path: {{ .Values.volume.varlog }}
+        - name: varlibdockercontainers
+          hostPath:
+            path: {{ .Values.volume.dockerContainer }}
